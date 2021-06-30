@@ -6,6 +6,7 @@ import {
   FlatList,
   View,
   Text,
+  Linking,
   Image,
   TouchableOpacity,
   Clipboard,
@@ -13,6 +14,7 @@ import {
   AlertIos,
   Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import CallButton from "./../components/ButtonBasic";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -24,6 +26,7 @@ export default class IncidentScreen extends React.Component {
       dataSource: [],
     };
   }
+  
 
   componentDidMount() {
     fetch("https://alert-qc.com/mobile/reportsOnProc.php")
@@ -34,6 +37,11 @@ export default class IncidentScreen extends React.Component {
           dataSource: reseponseJson,
         });
       });
+      AsyncStorage.getItem("userEmail").then((data) => {
+        if (data) {
+            Email: JSON.parse(data)
+        }
+      });
   }
   //INIDENT CARD
 
@@ -43,8 +51,8 @@ export default class IncidentScreen extends React.Component {
         onPress={() => {
           Alert.alert(
             "Incident Detail",
-            "Responder: " +
-              item.assigned_to +
+            "Reporter: " +
+              item.first_name +" "+ item.last_name +
               "\n" +
               "Location: " +
               item.location_of_incident +
@@ -52,8 +60,11 @@ export default class IncidentScreen extends React.Component {
               "Incident: " +
               item.incident_type +
               "\n" +
+              "Injuries: " +
+              item.injuries +
+              "\n" +
               "Date/Time Reported: " +
-              item.date_time_created +
+              item.date_time +
               "\n" +
               "Short Brief:\n\n" +
               item.short_description,
@@ -61,6 +72,10 @@ export default class IncidentScreen extends React.Component {
               {
                 text: "Cancel",
                 style: "cancel",
+              },
+              {
+                text: "Call",
+                onPress: () =>{Linking.openURL("tel: " + item.phone);}
               },
               {
                 text: "Copy Address",
@@ -82,15 +97,17 @@ export default class IncidentScreen extends React.Component {
       >
         <View style={styles.itemCard}>
           <Text style={styles.itemText}>
-            {"Responder: " +
-              item.assigned_to +
+            {"Reporter: " +
+              item.first_name +" "+ item.last_name +
               "\n" +
               "Location: " +
               item.location_of_incident +
               "\n" +
               "Incident: " +
               item.incident_type +
-              "\n"}
+              "\n"+
+              "Contact Number: " +
+              item.phone}
           </Text>
         </View>
       </TouchableOpacity>
@@ -102,6 +119,7 @@ export default class IncidentScreen extends React.Component {
     if (isLoading) {
       <View></View>;
     }
+    
     return (
       <SafeAreaView>
         <View styles={styles.container}>

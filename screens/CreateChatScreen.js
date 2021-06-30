@@ -8,7 +8,7 @@ export default class CreateChatScreen extends Component {
     this.state = {
       isLoading: true,
       dataSource: [],
-      userMessage: '',
+      userMessage: "",
     };
   }
 
@@ -21,6 +21,7 @@ export default class CreateChatScreen extends Component {
           dataSource: reseponseJson,
         });
       });
+
   }
   SendMsg = () => {
     const { userMessage } = this.state;
@@ -40,7 +41,7 @@ export default class CreateChatScreen extends Component {
       .then((responseJson) => {
         // If the Data matched.
         if (responseJson === "Loading~") {
-          Alert.alert(responseJson)
+          Alert.alert(responseJson);
         } else {
           Alert.alert(responseJson);
         }
@@ -48,7 +49,6 @@ export default class CreateChatScreen extends Component {
       .catch((err) => {
         console.error(err);
       });
-      this.forceUpdate();
   };
   //INIDENT CARD
 
@@ -82,6 +82,7 @@ export default class CreateChatScreen extends Component {
             data={dataSource}
             renderItem={this._renderItem}
             keyExtractor={(item, index) => index.toString()}
+            inverted={true}
           ></FlatList>
           </View>
         </View>
@@ -129,6 +130,8 @@ const styles = StyleSheet.create({
   chatScreen:{
     height: Dimensions.get("screen").height * 0.50,
     padding: 30,
+    paddingBottom: -20,
+    
   },
   itemCard:{
     marginTop: 10,
