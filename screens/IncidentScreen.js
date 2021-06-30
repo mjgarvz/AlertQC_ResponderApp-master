@@ -88,6 +88,7 @@ export default class IncidentScreen extends React.Component {
                     );
                   } else {
                     AlertIOS.alert("Location Copied to Clipboard");
+
                   }
                 },
               },
