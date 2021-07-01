@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Alert } from "react-native";
 import { KeyboardAvoidingView, View, Text, StyleSheet, TextInput, Dimensions, Button, ScrollView, SafeAreaView, FlatList,TouchableOpacity } from "react-native";
+
 
 export default class CreateChatScreen extends Component {
   constructor(props) {
@@ -9,8 +10,10 @@ export default class CreateChatScreen extends Component {
       isLoading: true,
       dataSource: [],
       userMessage: "",
+      
     };
   }
+  
 
   componentDidMount() {
     fetch("https://alert-qc.com/mobile/chatTemp.php")
@@ -70,39 +73,36 @@ export default class CreateChatScreen extends Component {
       <View></View>;
     }
     return (
-      <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}>
       <SafeAreaView>
-        
-        <View style={styles.container}>
+
+        <View>
           <View style={styles.chatScreen}>
-          <FlatList
-            data={dataSource}
+          <FlatList keyboardShouldPersistTaps='always'
+            data={dataSource}  
             renderItem={this._renderItem}
             keyExtractor={(item, index) => index.toString()}
             inverted={true}
+            extraData={this.state}
           ></FlatList>
           </View>
         </View>
-        <View style={styles.form}>
-        <View style={styles.formControl}>
-           <Text style={styles.inputTitle}>Message:</Text>
+        <ScrollView keyboardShouldPersistTaps='always'>
+        <View>
+           <Text >Message:</Text>
            <TextInput
              placeholder="Hi! How are you doing?"
-             style={styles.input}
+             autoFocus={true}
             keyboardType="default"
             onChangeText={(userMessage) => this.setState({ userMessage })}
              autoCapitalize="sentences"
              multiline={true}
+             
            />
          </View>
          <Button title="Send Chat" onPress={() => {this.SendMsg()}}/>
-       </View>
+       </ScrollView>
 
       </SafeAreaView>
-      </KeyboardAvoidingView>
     );
   }
 }
@@ -111,6 +111,9 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: "white",
     height: Dimensions.get('window').height
+  },
+  container:{
+    
   },
   form: {
     padding: 30,
@@ -128,9 +131,8 @@ const styles = StyleSheet.create({
       paddingVertical: 5
   },
   chatScreen:{
-    height: Dimensions.get("screen").height * 0.50,
-    padding: 30,
-    paddingBottom: -20,
+    height: Dimensions.get("screen").height * 0.30,
+
     
   },
   itemCard:{

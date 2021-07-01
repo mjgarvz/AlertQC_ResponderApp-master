@@ -37,11 +37,7 @@ export default class IncidentScreen extends React.Component {
           dataSource: reseponseJson,
         });
       });
-      AsyncStorage.getItem("userEmail").then((data) => {
-        if (data) {
-            Email: JSON.parse(data)
-        }
-      });
+
   }
   //INIDENT CARD
 
