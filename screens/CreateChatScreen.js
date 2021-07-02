@@ -10,9 +10,21 @@ export default class CreateChatScreen extends Component {
       isLoading: true,
       dataSource: [],
       userMessage: "",
-      
+      placeholder: "Hi! How are you doing?"
     };
   }
+    //load page
+    _loadPage(){
+      fetch("https://alert-qc.com/mobile/chatTemp.php")
+        .then((response) => response.json())
+        .then((reseponseJson) => {
+          this.setState({
+            isLoading: false.valueOf,
+            dataSource: reseponseJson,
+          });
+        });
+        this.setState({placeholder:"Hi! How are you doing?" })
+    }
   
 
   componentDidMount() {
@@ -29,6 +41,13 @@ export default class CreateChatScreen extends Component {
   SendMsg = () => {
     const { userMessage } = this.state;
     console.log(userMessage);
+    var MSG = ""
+    if (userMessage === ""){
+      MSG = userMessage;
+    }else{
+      MSG = "Responder: "+userMessage;
+    }
+    
 
     fetch("https://alert-qc.com/mobile/chatSend.php", {
       method: "POST",
@@ -37,21 +56,24 @@ export default class CreateChatScreen extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: userMessage,
+        message: MSG,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
         // If the Data matched.
         if (responseJson === "Loading~") {
+          this._loadPage();
           Alert.alert(responseJson);
         } else {
+          this._loadPage();
           Alert.alert(responseJson);
         }
       })
       .catch((err) => {
         console.error(err);
       });
+      
   };
   //INIDENT CARD
 
@@ -75,7 +97,7 @@ export default class CreateChatScreen extends Component {
     return (
       <SafeAreaView>
 
-        <View>
+        <View style={styles.container}>
           <View style={styles.chatScreen}>
           <FlatList keyboardShouldPersistTaps='always'
             data={dataSource}  
@@ -86,11 +108,11 @@ export default class CreateChatScreen extends Component {
           ></FlatList>
           </View>
         </View>
-        <ScrollView keyboardShouldPersistTaps='always'>
-        <View>
+        <ScrollView style={styles.subButt} keyboardShouldPersistTaps='always'>
+        <View style={styles.form}>
            <Text >Message:</Text>
            <TextInput
-             placeholder="Hi! How are you doing?"
+             placeholder={this.state.placeholder}
              autoFocus={true}
             keyboardType="default"
             onChangeText={(userMessage) => this.setState({ userMessage })}
@@ -99,7 +121,7 @@ export default class CreateChatScreen extends Component {
              
            />
          </View>
-         <Button title="Send Chat" onPress={() => {this.SendMsg()}}/>
+         <Button title="Send Chat" onPress={() => {this.SendMsg();}}/>
        </ScrollView>
 
       </SafeAreaView>
@@ -113,10 +135,13 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height
   },
   container:{
-    
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 5,
   },
   form: {
-    padding: 30,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   formControl: {
       paddingVertical: 5
@@ -144,5 +169,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: 'black',
   },
+  subButt:{
+    paddingLeft: 10,
+    paddingRight: 10
+  }
 });
 

@@ -97,10 +97,10 @@ class SignInScreen extends Component {
           <View style={styles.formControl}>
             <View style={styles.labelContainer}>
               <Ionicons style={styles.icon} name="ios-person" size={15} />
-              <Text style={styles.inputLabel}>Email Address:</Text>
+              <Text style={styles.inputLabel}>Username:</Text>
             </View>
             <TextInput
-              placeholder="Enter Email Address"
+              placeholder="Enter Username"
               style={styles.input}
               keyboardType="email-address"
               onChangeText={(userEmail) => this.setState({ userEmail })}

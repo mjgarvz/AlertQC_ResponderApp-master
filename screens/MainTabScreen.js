@@ -30,7 +30,7 @@ const Tab = createBottomTabNavigator();
 
 const MainTabScreen = () => (
   <Tab.Navigator initialRouteName="Incident" options={{}}>
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Map"
       component={MapStackScreen}
       options={{
@@ -39,7 +39,7 @@ const MainTabScreen = () => (
           <SimpleLineIcons name="compass" size={24} color="black" />
         ),
       }}
-    />
+    /> */}
     <Tab.Screen
       name="Chat"
       component={ChatStackScreen}
@@ -100,7 +100,7 @@ const IncidentStackScreen = ({ navigation }) => (
               ]);
             }}
           >
-            <SimpleLineIcons name="logout" size={24}></SimpleLineIcons>
+            <SimpleLineIcons name="logout" size={24} color="black"></SimpleLineIcons>
           </CallButton>
         ),
       }}
@@ -122,7 +122,7 @@ const MapStackScreen = ({ navigation }) => (
   >
     <MapStack.Screen
       name="Map"
-      component={MapScreen}
+      component={MapNavScreen}
       options={{
         title: "Navigation Map",
         headerTitleAlign: "center",
@@ -143,7 +143,7 @@ const MapStackScreen = ({ navigation }) => (
               ]);
             }}
           >
-            <SimpleLineIcons name="logout" size={24}></SimpleLineIcons>
+            <SimpleLineIcons name="logout" size={24} color="black"></SimpleLineIcons>
           </CallButton>
         ),
       }}
@@ -186,7 +186,7 @@ const ChatStackScreen = ({ navigation }) => (
               ]);
             }}
           >
-            <SimpleLineIcons name="logout" size={24}></SimpleLineIcons>
+            <SimpleLineIcons name="logout" size={24} color="black"></SimpleLineIcons>
           </CallButton>
         ),
       }}
@@ -214,7 +214,7 @@ const ChatStackScreen = ({ navigation }) => (
               ]);
             }}
           >
-            <SimpleLineIcons name="logout" size={24}></SimpleLineIcons>
+            <SimpleLineIcons name="logout" size={24} color="black"></SimpleLineIcons>
           </CallButton>
         ),
       }}
